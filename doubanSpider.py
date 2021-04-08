@@ -3,7 +3,8 @@
 import sys
 import time
 import urllib
-import urllib2
+# import urllib2
+import urllib.request as urllib2
 import requests
 import numpy as np
 from bs4 import BeautifulSoup
