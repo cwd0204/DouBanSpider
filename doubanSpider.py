@@ -44,7 +44,7 @@ def book_spider(book_tag):
         #source_code = requests.get(url) 
         #plain_text = source_code.text  
         
-        soup = BeautifulSoup(plain_text)
+        soup = BeautifulSoup(plain_text,features="lxml")
         list_soup = soup.find('div', {'class': 'mod book-list'})
         
         try_times+=1;
@@ -93,7 +93,7 @@ def get_people_num(url):
         plain_text=str(source_code)   
     except (urllib2.HTTPError, urllib2.URLError) as e:
         print(e)
-    soup = BeautifulSoup(plain_text)
+    soup = BeautifulSoup(plain_text,features="lxml")
     people_num=soup.find('div',{'class':'rating_sum'}).findAll('span')[1].string.strip()
     return people_num
 
