@@ -10,8 +10,8 @@ import numpy as np
 from bs4 import BeautifulSoup
 from openpyxl import Workbook
 
-reload(sys)
-sys.setdefaultencoding('utf8')
+# reload(sys)
+# sys.setdefaultencoding('utf8')
 
 
 
@@ -28,7 +28,7 @@ def book_spider(book_tag):
     
     while(1):
         #url='http://www.douban.com/tag/%E5%B0%8F%E8%AF%B4/book?start=0' # For Test
-        url='http://www.douban.com/tag/'+urllib.quote(book_tag)+'/book?start='+str(page_num*15)
+        url='http://www.douban.com/tag/'+urllib.parse.quote(book_tag)+'/book?start='+str(page_num*15)
         time.sleep(np.random.rand()*5)
         
         #Last Version
@@ -36,8 +36,8 @@ def book_spider(book_tag):
             req = urllib2.Request(url, headers=hds[page_num%len(hds)])
             source_code = urllib2.urlopen(req).read()
             plain_text=str(source_code)   
-        except (urllib2.HTTPError, urllib2.URLError), e:
-            print e
+        except (urllib2.HTTPError, urllib2.URLError) as e:
+            print(e)
             continue
   
         ##Previous Version, IP is easy to be Forbidden
@@ -81,7 +81,7 @@ def book_spider(book_tag):
             book_list.append([title,rating,people_num,author_info,pub_info])
             try_times=0 #set 0 when got valid information
         page_num+=1
-        print 'Downloading Information From Page %d' % page_num
+        print('Downloading Information From Page %d' % page_num)
     return book_list
 
 
@@ -91,8 +91,8 @@ def get_people_num(url):
         req = urllib2.Request(url, headers=hds[np.random.randint(0,len(hds))])
         source_code = urllib2.urlopen(req).read()
         plain_text=str(source_code)   
-    except (urllib2.HTTPError, urllib2.URLError), e:
-        print e
+    except (urllib2.HTTPError, urllib2.URLError) as e:
+        print(e)
     soup = BeautifulSoup(plain_text)
     people_num=soup.find('div',{'class':'rating_sum'}).findAll('span')[1].string.strip()
     return people_num
